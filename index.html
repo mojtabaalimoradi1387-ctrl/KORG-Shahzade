@@ -1,0 +1,421 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#0b1220">
+<title>KORG Shahzade</title>
+<style>
+:root{--bg:#0b1220;--panel:#172235;--line:#34445c;--muted:#a8b5c8;--accent:#e7a83e}
+*{box-sizing:border-box}
+body{margin:0;background:linear-gradient(160deg,#101c30,#080d17 65%);color:#f8fafc;font-family:Tahoma,Arial,sans-serif}
+header{padding:17px 14px 10px;text-align:center}
+.brand{font-size:25px;font-weight:800;letter-spacing:.3px}.brand span{color:var(--accent)}
+.sub{font-size:12px;color:var(--muted);margin-top:6px}
+main{max-width:900px;margin:auto;padding:8px 10px 22px}
+.panel{background:rgba(23,34,53,.96);border:1px solid var(--line);border-radius:15px;padding:12px;margin:9px 0;box-shadow:0 8px 24px #0004}
+.panel-title{font-size:13px;font-weight:bold;color:#f4c16b;margin-bottom:10px}
+.row{display:flex;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap}
+button,select,input{font:inherit}
+button,select{border:1px solid #53647c;border-radius:9px;background:#25354d;color:white;padding:10px 12px;font-size:13px}
+button:active{transform:scale(.98);background:#405575}
+button.primary{background:#9b651d;border-color:#d89a3b;color:#fff}
+button.on{background:#27634f;border-color:#4eaa87}
+select{max-width:100%}
+.metric{font-size:12px;color:var(--muted);display:flex;gap:7px;align-items:center}
+.metric b{color:white}
+input[type=range]{width:115px;accent-color:var(--accent)}
+.status{font-size:11px;color:#b9c7d9;text-align:center;margin-top:9px}
+.keyboard-wrap{overflow-x:auto;direction:ltr;padding:5px 0 12px;touch-action:pan-x}
+.keyboard{position:relative;display:flex;width:max-content;height:218px;margin:auto;user-select:none;touch-action:pan-x}
+.key{position:relative;width:45px;height:210px;background:#f8fafc;border:1px solid #111827;border-radius:0 0 6px 6px;color:#111827;display:flex;align-items:flex-end;justify-content:center;padding-bottom:12px;font-size:11px;flex:none;touch-action:none}
+.key.active{background:#bfdbfe}
+.black{position:absolute;top:0;right:-13px;width:26px;height:130px;background:#050a12;border:1px solid #64748b;border-radius:0 0 5px 5px;z-index:2;color:white;padding-bottom:9px}
+.black.active{background:#2563eb}
+.steps{display:grid;grid-template-columns:repeat(8,1fr);gap:6px;direction:ltr}
+.step{padding:11px 0;border-radius:7px;background:#26364c;border:1px solid #53647c;color:#fff}
+.step.active{background:#b87925;border-color:#f2c16c}
+.chord{min-width:76px;background:#34435b;border-color:#d39a43}.chord:active{background:#9b651d}
+.small{font-size:11px;color:var(--muted);text-align:center;line-height:1.8}
+footer{text-align:center;color:#8190a5;font-size:10px;padding:10px}
+@media(min-width:600px){.key{width:55px}.black{right:-15px;width:30px}}
+</style>
+
+<style>
+.workstation{background:linear-gradient(145deg,#252b35,#10151d);border:1px solid #647184;border-radius:17px;padding:12px;margin:10px 0;box-shadow:inset 0 1px 0 #ffffff18,0 10px 25px #0007}
+.ws-top{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:10px}
+.ws-name{font-weight:900;letter-spacing:1px;color:#f4c16b;font-size:13px}
+.ws-led{font-size:10px;color:#8ef0b3}.ws-screen{background:linear-gradient(120deg,#172f36,#0c2029);border:2px solid #526b70;border-radius:10px;padding:12px;box-shadow:inset 0 0 18px #0009}
+.ws-screen small{color:#a9c9c7;font-size:10px}.ws-screen strong{display:block;font-size:19px;color:#e3f7e9;margin:5px 0}
+.ws-readouts{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:9px}
+.ws-readouts div{background:#111b26;border:1px solid #3b4a5d;border-radius:8px;padding:8px;text-align:center}
+.ws-readouts span{display:block;font-size:9px;color:#9eacbd}.ws-readouts b{font-size:13px;color:#f6c66f}
+.ws-controls{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:10px}
+.ws-controls button{padding:9px 4px;font-size:11px;background:linear-gradient(#39485c,#202d40);border-color:#718096}
+.ws-controls button.selected{background:linear-gradient(#a66c20,#71430e);border-color:#f4c16b}
+.ws-caption{font-size:10px;color:#9eacbd;margin:9px 2px 0;text-align:center}
+@media(min-width:600px){.ws-controls{grid-template-columns:repeat(6,1fr)}}
+</style>
+
+
+<style>
+.fx-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.fx-control{display:block;background:#101a2a;border:1px solid #3b4c64;border-radius:10px;padding:10px}
+.fx-control span{display:flex;justify-content:space-between;gap:5px;color:#b9c7d9;font-size:11px;margin-bottom:8px}
+.fx-control b{color:#f4c16b}.fx-control input{width:100%;accent-color:#e7a83e}
+@media(max-width:360px){.fx-grid{grid-template-columns:1fr}}
+</style>
+
+
+<style>
+.mix-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.mix-channel{background:#101a2a;border:1px solid #3b4c64;border-radius:10px;padding:10px;display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center}
+.mix-channel b{font-size:10px;letter-spacing:.6px;color:#f4c16b}
+.mix-channel span{font-size:11px;color:#d5dfec}
+.mix-channel input{grid-column:1/-1;width:100%;accent-color:#e7a83e}
+</style>
+
+</head>
+<body>
+<header>
+ <div class="brand">🎹 <span>KORG</span> Shahzade</div>
+ <div class="sub">ارگ مجازی • نسخهٔ آزمایشی ۶</div>
+</header>
+<main>
+ <section class="panel">
+  <div class="panel-title">کنترل صدا</div>
+  <div class="row">
+   <label class="metric">ساز
+    <select id="voice"><option value="organ">ارگ</option><option value="piano">پیانو</option><option value="santoor">سنتور (صدای آزمایشی)</option><option value="tar">تار (صدای آزمایشی)</option><option value="ney">نی (صدای آزمایشی)</option><option value="synth">سینتی‌سایزر</option></select>
+   </label>
+   <label class="metric">اکتاو <button id="down">−</button><b id="octave">4</b><button id="up">+</button></label>
+   <label class="metric">صدا <input id="volume" type="range" min="0.03" max="0.35" step="0.01" value="0.18"></label>
+  </div>
+  <div class="status" id="status">برای شروع، یکی از کلاویه‌ها را لمس کن.</div>
+ </section>
+
+ <section class="panel">
+  <div class="panel-title">ریتم و درام</div>
+  <div class="row">
+   <label class="metric">ریتم
+    <select id="rhythm"><option value="pop">پاپ ساده</option><option value="dance">شش‌وهشت</option><option value="slow">آرام</option><option value="bandari">بندری آزمایشی</option></select>
+   </label>
+   <label class="metric">سرعت <b id="bpmLabel">100</b> BPM</label>
+   <input id="bpm" type="range" min="60" max="160" value="100">
+   <button class="primary" id="playBeat">▶ شروع ریتم</button>
+   <button id="stopBeat">■ توقف</button>
+  </div>
+  <div class="small">ریتم‌ها و صداهای ساز ایرانی در این نسخه شبیه‌سازی آزمایشی هستند، نه نمونه‌برداری واقعی از ساز.</div>
+  <div class="steps" id="steps"></div>
+ </section>
+
+
+
+ 
+ <section class="panel">
+  <div class="panel-title">افکت‌های صوتی حرفه‌ای</div>
+  <div class="fx-grid">
+   <label class="fx-control"><span>REVERB <b id="reverbVal">25%</b></span><input id="reverbFx" type="range" min="0" max="70" value="25"></label>
+   <label class="fx-control"><span>DELAY <b id="delayVal">15%</b></span><input id="delayFx" type="range" min="0" max="60" value="15"></label>
+   <label class="fx-control"><span>BASS <b id="bassVal">0 dB</b></span><input id="bassFx" type="range" min="-12" max="12" value="0"></label>
+   <label class="fx-control"><span>TREBLE <b id="trebleVal">0 dB</b></span><input id="trebleFx" type="range" min="-12" max="12" value="0"></label>
+  </div>
+  <div class="row" style="margin-top:10px"><button id="fxReset">بازنشانی افکت‌ها</button></div>
+  <div class="small">افکت‌ها روی صدای سازها اعمال می‌شوند و هنگام نوازندگی هم قابل تغییرند.</div>
+ </section>
+
+
+<section class="panel">
+ <div class="panel-title">میکسر چندکاناله • CHANNEL MIXER</div>
+ <div class="mix-grid">
+  <label class="mix-channel"><b>KEYBOARD</b><span id="keyMixVal">80%</span><input id="keyMix" type="range" min="0" max="100" value="80"></label>
+  <label class="mix-channel"><b>DRUMS</b><span id="drumMixVal">75%</span><input id="drumMix" type="range" min="0" max="100" value="75"></label>
+  <label class="mix-channel"><b>BASS</b><span id="bassMixVal">65%</span><input id="bassMix" type="range" min="0" max="100" value="65"></label>
+  <label class="mix-channel"><b>MASTER</b><span id="masterMixVal">85%</span><input id="masterMix" type="range" min="0" max="100" value="85"></label>
+ </div>
+ <div class="small">هر کانال را جداگانه تنظیم کن؛ MASTER بلندی کل خروجی برنامه را کنترل می‌کند.</div>
+</section>
+
+<section class="panel">
+  <div class="panel-title">ضبط نوازندگی</div>
+  <div class="row">
+   <button class="primary" id="recordBtn">● شروع ضبط</button>
+   <button id="playRecording" disabled>▶ پخش ضبط</button>
+   <button id="clearRecording" disabled>پاک‌کردن</button>
+   <button id="saveRecording" disabled>ذخیره اجرا</button>
+   <button id="loadRecording">بارگذاری اجرا</button>
+   <input id="recordingFile" type="file" accept="application/json,.json" hidden>
+  </div>
+  <div class="status" id="recordStatus">هنوز چیزی ضبط نشده است.</div>
+  <div class="small">اجرای نواخته‌شده را می‌توانی به‌صورت فایل JSON ذخیره و بعداً دوباره بارگذاری کنی؛ این فایل صوتی نیست.</div>
+ </section>
+
+ <section class="panel">
+  <div class="panel-title">پد آکورد آماده</div>
+  <div class="row" id="chords">
+   <button class="chord" data-notes="60,64,67">دو ماژور</button>
+   <button class="chord" data-notes="57,60,64">لا مینور</button>
+   <button class="chord" data-notes="65,69,72">فا ماژور</button>
+   <button class="chord" data-notes="67,71,74">سل ماژور</button>
+  </div>
+  <div class="small">هر پد را لمس کن تا آکورد پخش شود. اکتاو انتخاب‌شده روی کلاویه‌ها اثر می‌گذارد؛ پدها آکوردهای ثابت دارند.</div>
+ </section>
+
+ <section class="panel">
+  <div class="panel-title">کلاویه‌ها</div>
+  <div class="keyboard-wrap"><div class="keyboard" id="keyboard"></div></div>
+  <div class="small">برای اجرای آکورد، چند کلاویه را هم‌زمان نگه دار. کلاویه‌ها را افقی جابه‌جا کن تا نت‌های دیگر را ببینی.</div>
+ </section>
+</main>
+<footer>KORG Shahzade — ساخته‌شده برای تمرین و سرگرمی</footer>
+<script>
+const AudioCtx=window.AudioContext||window.webkitAudioContext;
+const ctx=new AudioCtx();
+
+const masterGain=ctx.createGain();
+const keyboardBus=ctx.createGain(),drumBus=ctx.createGain(),bassBus=ctx.createGain();
+keyboardBus.connect(masterGain);drumBus.connect(masterGain);bassBus.connect(masterGain);
+keyboardBus.gain.value=.8;drumBus.gain.value=.75;bassBus.gain.value=.65;masterGain.gain.value=.85;
+const bassFilter=ctx.createBiquadFilter();bassFilter.type='lowshelf';bassFilter.frequency.value=180;
+const trebleFilter=ctx.createBiquadFilter();trebleFilter.type='highshelf';trebleFilter.frequency.value=4200;
+masterGain.connect(bassFilter);bassFilter.connect(trebleFilter);trebleFilter.connect(ctx.destination);
+const reverb=ctx.createConvolver(),reverbLevel=ctx.createGain();
+const impulse=ctx.createBuffer(2,Math.floor(ctx.sampleRate*1.8),ctx.sampleRate);
+for(let ch=0;ch<2;ch++){const data=impulse.getChannelData(ch);for(let i=0;i<data.length;i++)data[i]=(Math.random()*2-1)*Math.pow(1-i/data.length,2.4);}
+reverb.buffer=impulse;masterGain.connect(reverb);reverb.connect(reverbLevel);reverbLevel.gain.value=.18;reverbLevel.connect(ctx.destination);
+const delay=ctx.createDelay(1.2),delayFeedback=ctx.createGain(),delayLevel=ctx.createGain();
+delay.delayTime.value=.28;delayFeedback.gain.value=.22;delayLevel.gain.value=.10;
+masterGain.connect(delay);delay.connect(delayFeedback);delayFeedback.connect(delay);delay.connect(delayLevel);delayLevel.connect(ctx.destination);
+
+let octave=4, voice='organ', beatTimer=null, beatStep=0, bpm=100, volume=.18;
+let isRecording=false, recordingStart=0, recordedNotes=[], playbackTimers=[];
+const keyboard=document.getElementById('keyboard'), active=new Map();
+const notes=[['C','دو',0],['C#','دو♯',1],['D','ر',2],['D#','ر♯',3],['E','می',4],['F','فا',5],['F#','فا♯',6],['G','سل',7],['G#','سل♯',8],['A','لا',9],['A#','لا♯',10],['B','سی',11]];
+const blackAfter=new Set([0,2,5,7,9]);
+const freq=m=>440*Math.pow(2,(m-69)/12);
+function tone(midi,vel=volume,duration=null){
+ if(ctx.state==='suspended')ctx.resume();
+ const osc=ctx.createOscillator(), gain=ctx.createGain();
+ const types={organ:'sine',piano:'triangle',santoor:'sine',tar:'triangle',ney:'sine',synth:'sawtooth'};
+ osc.type=types[voice]||'sine';osc.frequency.value=freq(midi);
+ if(voice==='ney')osc.frequency.value=freq(midi)*0.5;
+ if(voice==='tar')osc.detune.value=7;
+ if(voice==='santoor')osc.detune.value=-4;
+ if(voice==='organ'){
+  const second=ctx.createOscillator(),g2=ctx.createGain();second.type='sine';second.frequency.value=freq(midi)*2;g2.gain.value=.22;second.connect(g2);g2.connect(masterGain);second.start();
+  if(duration){g2.gain.setTargetAtTime(0,ctx.currentTime+duration-.06,.03);second.stop(ctx.currentTime+duration+.12)}
+ }
+ gain.gain.setValueAtTime(.0001,ctx.currentTime);gain.gain.linearRampToValueAtTime(vel,ctx.currentTime+.018);
+ if(duration)gain.gain.setTargetAtTime(.0001,ctx.currentTime+duration-.05,.03);
+ osc.connect(gain);gain.connect(keyboardBus);osc.start();
+ if(duration){osc.stop(ctx.currentTime+duration+.14)}
+ return {osc,gain};
+}
+function makeKey(note,oct,black=false){
+ const el=document.createElement('div');el.className='key'+(black?' black':'');el.textContent=note[1];
+ const midi=(oct+1)*12+note[2];
+ const start=e=>{e.preventDefault();if(active.has(e.pointerId))return;try{el.setPointerCapture(e.pointerId)}catch{};const v=tone(midi);active.set(e.pointerId,{...v,el,midi});if(isRecording)recordedNotes.push({type:'on',midi,time:performance.now()-recordingStart});el.classList.add('active')};
+ const end=e=>{const v=active.get(e.pointerId);if(!v)return;if(isRecording)recordedNotes.push({type:'off',midi:v.midi,time:performance.now()-recordingStart});v.gain.gain.cancelScheduledValues(ctx.currentTime);v.gain.gain.setTargetAtTime(.0001,ctx.currentTime,.045);try{v.osc.stop(ctx.currentTime+.2)}catch{};v.el.classList.remove('active');active.delete(e.pointerId)};
+ el.addEventListener('pointerdown',start);el.addEventListener('pointerup',end);el.addEventListener('pointercancel',end);el.addEventListener('lostpointercapture',end);
+ return el;
+}
+function renderKeys(){
+ keyboard.innerHTML='';
+ for(let o=octave;o<octave+2;o++)notes.forEach(n=>{
+  const white=makeKey(n,o);keyboard.appendChild(white);
+  if(blackAfter.has(n[2]))white.appendChild(makeKey(n,o,true));
+ });
+}
+document.getElementById('down').onclick=()=>{octave=Math.max(1,octave-1);document.getElementById('octave').textContent=octave;renderKeys()};
+document.getElementById('up').onclick=()=>{octave=Math.min(7,octave+1);document.getElementById('octave').textContent=octave;renderKeys()};
+document.getElementById('voice').onchange=e=>{voice=e.target.value;document.getElementById('status').textContent='ساز انتخاب‌شده: '+e.target.selectedOptions[0].text};
+document.getElementById('volume').oninput=e=>volume=Number(e.target.value);
+document.getElementById('bpm').oninput=e=>{bpm=Number(e.target.value);document.getElementById('bpmLabel').textContent=bpm};
+const stepsEl=document.getElementById('steps');
+for(let i=0;i<8;i++){const b=document.createElement('button');b.className='step';b.textContent=i+1;b.onclick=()=>b.classList.toggle('active');stepsEl.appendChild(b)}
+function drum(kind){
+ if(ctx.state==='suspended')ctx.resume();
+ const now=ctx.currentTime;
+ if(kind==='kick'){
+  const o=ctx.createOscillator(),g=ctx.createGain();o.type='sine';o.frequency.setValueAtTime(130,now);o.frequency.exponentialRampToValueAtTime(42,now+.12);g.gain.setValueAtTime(.8,now);g.gain.exponentialRampToValueAtTime(.001,now+.16);o.connect(g);g.connect(drumBus);o.start(now);o.stop(now+.17);
+ }else{
+  const n=ctx.createBuffer(1,ctx.sampleRate*.08,ctx.sampleRate),d=n.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1;
+  const src=ctx.createBufferSource(),f=ctx.createBiquadFilter(),g=ctx.createGain();src.buffer=n;f.type='highpass';f.frequency.value=kind==='snare'?1200:6500;g.gain.setValueAtTime(kind==='snare'?.28:.12,now);g.gain.exponentialRampToValueAtTime(.001,now+.07);src.connect(f);f.connect(g);g.connect(drumBus);src.start(now);
+ }
+}
+
+function bassNote(step,style){
+ const roots={pop:36,dance:36,slow:33,bandari:38};
+ const root=roots[style]||36;
+ const offsets=style==='bandari'?[0,0,7,5,0,0,7,10]:style==='slow'?[0,0,0,7,0,0,5,7]:[0,0,7,0,5,0,7,0];
+ const midi=root+offsets[step%8],now=ctx.currentTime;
+ const o=ctx.createOscillator(),g=ctx.createGain(),f=ctx.createBiquadFilter();
+ o.type='triangle';o.frequency.setValueAtTime(freq(midi),now);
+ f.type='lowpass';f.frequency.value=420;
+ g.gain.setValueAtTime(.0001,now);g.gain.linearRampToValueAtTime(.22,now+.012);
+ g.gain.exponentialRampToValueAtTime(.0001,now+.22);
+ o.connect(f);f.connect(g);g.connect(bassBus);o.start(now);o.stop(now+.24);
+}
+
+function tick(){
+ const style=document.getElementById('rhythm').value;
+ const pattern=style==='dance'?[1,0,2,0,1,0,2,0]:style==='slow'?[1,0,0,2,0,0,2,0]:style==='bandari'?[1,2,0,2,1,2,0,2]:[1,0,2,0,1,0,2,0];
+ const buttons=[...stepsEl.children];buttons.forEach((b,i)=>b.classList.toggle('active',i===beatStep));
+ const hit=pattern[beatStep];if(hit===1)drum('kick');else if(hit===2)drum('snare');if(beatStep%2===1)drum('hat');
+ if(beatStep%2===0)bassNote(beatStep,style);
+ beatStep=(beatStep+1)%8;
+}
+document.getElementById('playBeat').onclick=()=>{if(beatTimer)return;beatStep=0;tick();beatTimer=setInterval(tick,60000/bpm/2);document.getElementById('playBeat').textContent='● در حال پخش'};
+document.getElementById('stopBeat').onclick=()=>{if(beatTimer)clearInterval(beatTimer);beatTimer=null;[...stepsEl.children].forEach(b=>b.classList.remove('active'));document.getElementById('playBeat').textContent='▶ شروع ریتم'};
+document.getElementById('bpm').addEventListener('change',()=>{if(beatTimer){clearInterval(beatTimer);beatTimer=setInterval(tick,60000/bpm/2)}});
+renderKeys();
+
+const recordBtn=document.getElementById('recordBtn');
+const playRecording=document.getElementById('playRecording');
+const clearRecording=document.getElementById('clearRecording');
+const recordStatus=document.getElementById('recordStatus');
+function refreshRecording(){
+ const ready=recordedNotes.some(n=>n.type==='on');
+ playRecording.disabled=!ready;clearRecording.disabled=!ready;saveRecording.disabled=!ready;
+ recordStatus.textContent=ready?'ضبط‌شده: '+recordedNotes.filter(n=>n.type==='on').length+' نت':'هنوز چیزی ضبط نشده است.';
+}
+recordBtn.onclick=()=>{
+ if(!isRecording){
+  playbackTimers.forEach(clearTimeout);playbackTimers=[];
+  recordedNotes=[];isRecording=true;recordingStart=performance.now();
+  recordBtn.textContent='■ پایان ضبط';recordBtn.classList.add('on');
+  recordStatus.textContent='در حال ضبط نوازندگی…';
+ }else{
+  isRecording=false;recordBtn.textContent='● شروع ضبط';recordBtn.classList.remove('on');refreshRecording();
+ }
+};
+playRecording.onclick=()=>{
+ if(isRecording||!recordedNotes.length)return;
+ playbackTimers.forEach(clearTimeout);playbackTimers=[];
+ const openNotes=new Map();
+ recordedNotes.forEach(ev=>{
+  if(ev.type==='on'){
+   if(!openNotes.has(ev.midi))openNotes.set(ev.midi,[]);
+   openNotes.get(ev.midi).push(ev.time);
+  }else if(ev.type==='off'&&openNotes.has(ev.midi)){
+   const starts=openNotes.get(ev.midi), start=starts.shift();
+   if(start!==undefined){
+    const duration=Math.max(.12,(ev.time-start)/1000);
+    playbackTimers.push(setTimeout(()=>tone(ev.midi,Math.min(volume,.18),duration),start));
+   }
+  }
+ });
+ openNotes.forEach((starts,midi)=>starts.forEach(start=>{
+  playbackTimers.push(setTimeout(()=>tone(midi,Math.min(volume,.18),.4),start));
+ }));
+};
+const saveRecording=document.getElementById('saveRecording');
+const loadRecording=document.getElementById('loadRecording');
+const recordingFile=document.getElementById('recordingFile');
+saveRecording.onclick=()=>{
+ if(!recordedNotes.length||isRecording)return;
+ const payload={app:'KORG Shahzade',version:5,createdAt:new Date().toISOString(),events:recordedNotes};
+ const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});
+ const url=URL.createObjectURL(blob),a=document.createElement('a');
+ a.href=url;a.download='KORG-Shahzade-performance.json';a.click();
+ setTimeout(()=>URL.revokeObjectURL(url),1000);
+};
+loadRecording.onclick=()=>recordingFile.click();
+recordingFile.onchange=async e=>{
+ const file=e.target.files&&e.target.files[0];if(!file)return;
+ try{
+  const data=JSON.parse(await file.text());
+  if(!Array.isArray(data.events)||!data.events.every(ev=>(ev.type==='on'||ev.type==='off')&&Number.isFinite(ev.midi)&&Number.isFinite(ev.time)))throw new Error('invalid');
+  recordedNotes=data.events;isRecording=false;recordBtn.textContent='● شروع ضبط';recordBtn.classList.remove('on');refreshRecording();
+  recordStatus.textContent='اجرای ذخیره‌شده بارگذاری شد.';
+ }catch(err){recordStatus.textContent='فایل معتبر نیست؛ یک فایل اجرای KORG Shahzade انتخاب کن.'}
+ recordingFile.value='';
+};
+clearRecording.onclick=()=>{
+ isRecording=false;recordedNotes=[];playbackTimers.forEach(clearTimeout);playbackTimers=[];
+ recordBtn.textContent='● شروع ضبط';recordBtn.classList.remove('on');refreshRecording();
+};
+
+
+document.querySelectorAll('.chord').forEach(btn=>{
+ btn.addEventListener('click',()=>{
+  if(ctx.state==='suspended')ctx.resume();
+  const root=Number(btn.dataset.notes.split(',')[0]);
+  btn.classList.add('on');
+  btn.dataset.notes.split(',').map(Number).forEach((m,i)=>{
+   const v=tone(m,Math.min(volume,.16),1.15);
+  });
+  setTimeout(()=>btn.classList.remove('on'),220);
+ });
+});
+
+
+
+
+// Independent channel mixer
+const mixerMap=[
+ ['keyMix','keyMixVal',keyboardBus],['drumMix','drumMixVal',drumBus],
+ ['bassMix','bassMixVal',bassBus],['masterMix','masterMixVal',masterGain]
+];
+mixerMap.forEach(([input,label,node])=>{
+ const el=document.getElementById(input),out=document.getElementById(label);
+ const apply=()=>{const v=Number(el.value);node.gain.setTargetAtTime(v/100,ctx.currentTime,.025);out.textContent=v+'%';};
+ el.addEventListener('input',apply);apply();
+});
+
+// Live effects controls
+const fxIds=['reverbFx','delayFx','bassFx','trebleFx'];
+function applyEffects(){
+ const rv=Number(document.getElementById('reverbFx').value);
+ const dl=Number(document.getElementById('delayFx').value);
+ const bs=Number(document.getElementById('bassFx').value);
+ const tr=Number(document.getElementById('trebleFx').value);
+ reverbLevel.gain.setTargetAtTime(rv/100*.55,ctx.currentTime,.025);
+ delayLevel.gain.setTargetAtTime(dl/100*.42,ctx.currentTime,.025);
+ bassFilter.gain.setTargetAtTime(bs,ctx.currentTime,.025);
+ trebleFilter.gain.setTargetAtTime(tr,ctx.currentTime,.025);
+ document.getElementById('reverbVal').textContent=rv+'%';
+ document.getElementById('delayVal').textContent=dl+'%';
+ document.getElementById('bassVal').textContent=(bs>0?'+':'')+bs+' dB';
+ document.getElementById('trebleVal').textContent=(tr>0?'+':'')+tr+' dB';
+}
+fxIds.forEach(id=>document.getElementById(id).addEventListener('input',applyEffects));
+document.getElementById('fxReset').addEventListener('click',()=>{
+ document.getElementById('reverbFx').value=25;
+ document.getElementById('delayFx').value=15;
+ document.getElementById('bassFx').value=0;
+ document.getElementById('trebleFx').value=0;
+ applyEffects();
+});
+applyEffects();
+
+// Professional-style workstation controls and live display
+const voiceNames={organ:'ORGAN',piano:'PIANO',santoor:'SANTOOR',tar:'TAR',ney:'NEY',synth:'SYNTH'};
+const rhythmNames={pop:'POP',dance:'6/8',slow:'SLOW',bandari:'BANDARI'};
+function updateWorkstation(){
+ document.getElementById('wsVoice').textContent=voiceNames[voice]||'ORGAN';
+ document.getElementById('wsRhythm').textContent=rhythmNames[document.getElementById('rhythm').value]||'POP';
+ document.getElementById('wsTempo').textContent=bpm+' BPM';
+ document.getElementById('wsOctave').textContent=octave;
+ document.querySelectorAll('[data-voice]').forEach(b=>b.classList.toggle('selected',b.dataset.voice===voice));
+ document.querySelectorAll('[data-rhythm]').forEach(b=>b.classList.toggle('selected',b.dataset.rhythm===document.getElementById('rhythm').value));
+}
+document.querySelectorAll('[data-voice]').forEach(b=>b.addEventListener('click',()=>{
+ voice=b.dataset.voice;document.getElementById('voice').value=voice;
+ document.getElementById('status').textContent='ساز انتخاب‌شده: '+voiceNames[voice];
+ updateWorkstation();
+}));
+document.querySelectorAll('[data-rhythm]').forEach(b=>b.addEventListener('click',()=>{
+ document.getElementById('rhythm').value=b.dataset.rhythm;updateWorkstation();
+}));
+document.getElementById('wsStart').onclick=()=>document.getElementById('playBeat').click();
+document.getElementById('wsStop').onclick=()=>document.getElementById('stopBeat').click();
+document.getElementById('voice').addEventListener('change',updateWorkstation);
+document.getElementById('rhythm').addEventListener('change',updateWorkstation);
+document.getElementById('bpm').addEventListener('input',updateWorkstation);
+document.getElementById('up').addEventListener('click',updateWorkstation);
+document.getElementById('down').addEventListener('click',updateWorkstation);
+updateWorkstation();
+
+</script>
+</body></html>
